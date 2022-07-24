@@ -1,14 +1,13 @@
-const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const logger = require("./utils/logger")
-const config = require("./utils/config")
-const blogsRouter = require("./controllers/blogs")
+const {PORT,MONGODB_URI} = require("./utils/config")
+const usersRouter = require("./controllers/users")
 
-
-mongoose.connect(config.MONGODB_URI)
+console.log(MONGODB_URI)
+mongoose.connect(MONGODB_URI)
     .then(() => {
         logger.info('connected to MongoDB')
     })
@@ -18,9 +17,8 @@ mongoose.connect(config.MONGODB_URI)
 
 app.use(cors())
 app.use(express.json())
-app.use("/api/blogs",blogsRouter)
+app.use("/api/users",usersRouter)
 
-
-app.listen(config.PORT, () => {
-  logger.info(`Server running on port ${config.PORT}`)
+app.listen(PORT, () => {
+  logger.info(`Server running on port ${PORT}`)
 })
